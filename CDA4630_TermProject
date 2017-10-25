@@ -1,0 +1,4 @@
+Our term project for the course was to repurpose code that was originally given to detect light 
+and temperature in a room using temperature and light sensors. So, we rewired a remote control 
+and utilized those sensors to control the movement of the vehicle's motors via a joystick and
+MSP430 microcontroller.
