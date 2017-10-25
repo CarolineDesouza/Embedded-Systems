@@ -1,5 +1,58 @@
 #CDA6316 Embedded Systems Design Term Project by Caroline N. Desouza & Ramiro Alvarez, Spring 2017
 
+#Main code to control drone with accelerometer:
+
+'use strict';
+var MPU6050 = require('mpu6050-wiringpi');
+var sumo = require('node-sumo');
+var sleep = require('system-sleep');  //interrupt event loop, system sleep
+var drone = sumo.createClient();
+
+while (true) {
+	var data = MPU6050.read();
+	console.log(data);
+	if (Math.max(Math.abs(data.accelX), Math.max(Math.abs(data.accelY),
+	Math.abs(data.accelZ))) == Math.abs(data.accelX)) {
+		if (data.accelX < 0) {
+			//drone.left(10);
+			console.log('left');
+		}
+		else {
+			// drone.right(10);
+			console.log('right');
+		}
+	}
+	
+	if (Math.max(Math.abs(data.accelX), Math.max(Math.abs(data.accelY),
+	Math.abs(data.accelZ))) == Math.abs(data.accelY)) {
+		if (data.accelY < 0) {
+			//drone.backward(30);
+			console.log('backward');
+		}
+		else {
+			// drone.forward(30);
+			console.log('forward');
+		}
+	}
+	
+	if (Math.max(Math.abs(data.accelX), Math.max(Math.abs(data.accelY),
+	Math.abs(data.accelZ))) == Math.abs(data.accelZ)) {
+		if (data.accelZ > 0) {
+			//drone.stop();
+			console.log('drone stop');
+		}
+		else {
+			//drone.postureJumper();
+			//drone.animationsHighJump();
+			console.log('jump');
+		}
+	}
+	
+	sleep(1000);
+}
+	
+
+
 #Python code for MPU6050 accelerometer for use with raspberry pi 3 and jumping sumo drone
 
 #!/usr/bin/python
@@ -10,7 +63,7 @@ import math
 #Power management registers
 power_mgmt_1 = 0x6b #register allows user to config power mode & clock source
 power_mgmt_2 = 0x6c #register allows user to config frequency of wake-ups in Accelerometer Only Low Power Mode; 
-					#also allows user to put individual axes of the accelerometer and gyroscope into standby mode
+		    #also allows user to put individual axes of the accelerometer and gyroscope into standby mode
  
 bus = smbus.SMBus(1) #for Revision 2 boards
 
